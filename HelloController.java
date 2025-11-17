@@ -20,4 +20,8 @@ public class HelloController {
     public String greet(@RequestParam String name) {
         return "Hello " + name;
     }
+  @GetMapping("/upper")
+    public String upper(@RequestParam String text) {
+        return text.toUpperCase();
+    }
 }
