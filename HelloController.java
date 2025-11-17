@@ -24,4 +24,8 @@ public class HelloController {
     public String upper(@RequestParam String text) {
         return text.toUpperCase();
     }
+   @GetMapping("/random")
+    public int random() {
+        return (int) (Math.random()*100)+1;
+    }
 }
