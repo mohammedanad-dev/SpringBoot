@@ -10,4 +10,15 @@ public class Info {
         this.location = location;
         this.language = language;
     }
+      public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
 }
