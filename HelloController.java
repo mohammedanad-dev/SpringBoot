@@ -11,4 +11,9 @@ public class HelloController {
     public String hello() {
         return "Hello Guest";
     }
+  @GetMapping("/sum")
+    public int sum(@RequestParam int a, @RequestParam int b) {
+        return a + b;
+
+    }
 }
