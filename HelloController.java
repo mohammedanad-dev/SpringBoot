@@ -28,4 +28,16 @@ public class HelloController {
     public int random() {
         return (int) (Math.random()*100)+1;
     }
+ //    public record info(String name, String city, String language) {
+//    }
+//
+//    @GetMapping("/info")
+//    public info info() {
+//        return new info("Mohammed", "Alamerat", "java");
+//    }
+
+    @GetMapping("/info")
+    public Info getInfo() {
+        return new Info("Mohammed", "Alamerat", "java");
+}
 }
