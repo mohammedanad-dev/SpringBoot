@@ -16,4 +16,8 @@ public class HelloController {
         return a + b;
 
     }
+  @GetMapping("/greet")
+    public String greet(@RequestParam String name) {
+        return "Hello " + name;
+    }
 }
