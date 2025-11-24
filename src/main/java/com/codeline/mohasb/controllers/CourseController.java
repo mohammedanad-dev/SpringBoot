@@ -1,6 +1,8 @@
 package com.codeline.mohasb.controllers;
 
-import com.codeline.mohasb.utility.Course;
+import com.codeline.mohasb.entity.Course;
+import com.codeline.mohasb.services.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -9,87 +11,41 @@ import java.util.*;
 @RestController
 public class CourseController {
 
-    private List<Course> courseList = new ArrayList<>();
-    private int idCounter = 1;
+    @Autowired
+    CourseService courseService;
 
     @PostMapping("create")
-    public String createCourse(@RequestBody Course requestObj) {
+    public Course createCourse(@RequestBody Course requestObj) {
 
-        requestObj.setId(idCounter);
-        requestObj.setCreatedDate(new Date());
-        requestObj.setIsActive(true);
-
-        courseList.add(requestObj);
-
-        return "Course created with ID: " + idCounter++;
+        Course course = courseService.saveCourse(requestObj);
+        return course;
     }
 
     @GetMapping("getAll")
     public List<Course> getAllCourses() {
-        List<Course> activeCourses = new ArrayList<>();
-
-        for (Course c : courseList) {
-            if (c.getIsActive()) {
-                activeCourses.add(c);
-            }
-        }
-        return activeCourses;
+       List<Course> courseList= courseService.getAllCourses();
+       return courseList;
     }
 
     @GetMapping("getById")
-    public Course getCourse(@RequestParam int id) {
-        for (Course c : courseList) {
-            if (c.getId() == id && c.getIsActive()) {
-                return c;
-            }
-        }
-        return Course.builder().build();
+    public Course getCourse(@RequestParam int id) throws Exception {
+
+        return courseService.getCourseById(id);
     }
 
     @PutMapping("update")
-    public String updateCourse(@RequestBody Course updateObj) {
+    public Course updateCourse  (@RequestBody Course updateObj) throws Exception {
 
-        if (updateObj != null && updateObj.getId() != null) {
-
-            Course existingCourse = findCourseById(updateObj.getId());
-
-            courseList.remove(existingCourse);
-
-            existingCourse.setName(updateObj.getName());
-            existingCourse.setInstructor(updateObj.getInstructor());
-            existingCourse.setUpdatedDate(new Date());
-
-            courseList.add(existingCourse);
-
-            return "Course updated successfully";
-        }
-        return "Course not found";
+        return courseService.updateCourse(updateObj);
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteCourse(@PathVariable int id) {
+    public String deleteCourse(@PathVariable int id) throws Exception {
 
-        Course existingCourse = findCourseById(id);
+        courseService.deleteCourse(id);
+        return "SUCCESS";
 
-        if (existingCourse.getId() > 0) {
-            courseList.remove(existingCourse);
 
-            existingCourse.setIsActive(false);
-            existingCourse.setUpdatedDate(new Date());
-
-            courseList.add(existingCourse);
-
-            return "Course deleted successfully";
-        }
-        return "Invalid id";
     }
 
-    public Course findCourseById(int id) {
-        for (Course c : courseList) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-        return Course.builder().id(-1).build();
-    }
 }

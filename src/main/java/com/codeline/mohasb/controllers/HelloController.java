@@ -1,6 +1,6 @@
 package com.codeline.mohasb.controllers;
 
-import com.codeline.mohasb.utility.Info;
+import com.codeline.mohasb.entity.Info;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
